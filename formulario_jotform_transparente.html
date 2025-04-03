@@ -4,18 +4,19 @@
   <meta charset="UTF-8">
   <title>Formulário de Contato</title>
   <style>
-    body {
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
       font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      padding: 2rem;
     }
     form {
       max-width: 600px;
-      margin: auto;
-      background: #fff;
+      margin: 2rem auto;
+      background: transparent;
       padding: 2rem;
       border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 10px rgba(255,255,255,0.1);
     }
     input, textarea, button {
       width: 100%;
@@ -47,18 +48,18 @@
 <body>
 
 <form id="contato-form">
-  <h2>Formulário de Contato</h2>
+  <h2 style="color: white;">Formulário de Contato</h2>
 
-  <label for="nome">Nome</label>
+  <label for="nome" style="color: white;">Nome</label>
   <input name="nome" type="text" required>
 
-  <label for="email">Email</label>
+  <label for="email" style="color: white;">Email</label>
   <input name="email" type="email" required>
 
-  <label for="telefone">Telefone</label>
+  <label for="telefone" style="color: white;">Telefone</label>
   <input name="telefone" type="tel">
 
-  <label for="mensagem">Mensagem</label>
+  <label for="mensagem" style="color: white;">Mensagem</label>
   <textarea name="mensagem" rows="5" required></textarea>
 
   <button type="submit">Enviar</button>
