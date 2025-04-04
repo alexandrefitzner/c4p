@@ -1,1 +1,145 @@
 
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulário de Contato Avançado</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      font-family: Arial, sans-serif;
+    }
+    form {
+      max-width: 700px;
+      margin: 2rem auto;
+      background: transparent;
+      padding: 2rem;
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+    label {
+      color: #333;
+      font-weight: bold;
+      display: block;
+      margin-top: 1rem;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 0.8rem;
+      margin-top: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    .half-width {
+      width: 48%;
+      display: inline-block;
+    }
+    .half-width:first-child {
+      margin-right: 4%;
+    }
+    .checkbox-group label {
+      font-weight: normal;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      margin-top: 1.5rem;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+    .success-message {
+      display: none;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+      border-radius: 5px;
+      color: #155724;
+    }
+  </style>
+</head>
+<body>
+
+<form id="contato-form">
+  <h2 style="color: #222;">Formulário de Contato</h2>
+
+  <label for="primeiro_nome">Nome</label>
+  <div class="half-width">
+    <input name="primeiro_nome" type="text" placeholder="Primeiro nome" required>
+  </div>
+  <div class="half-width">
+    <input name="ultimo_nome" type="text" placeholder="Último nome" required>
+  </div>
+
+  <label for="email">E-mail</label>
+  <input name="email" type="email" placeholder="exemplo@dominio.com" required>
+
+  <label for="telefone">Telefone</label>
+  <input name="telefone" type="tel" placeholder="(00) 00000-0000" required>
+
+  <label for="observacoes">Observações</label>
+  <textarea name="observacoes" rows="4" placeholder="Em que podemos ajudar?" required></textarea>
+
+  <label>Interesse em:</label>
+  <div class="checkbox-group">
+    <label><input type="checkbox" name="interesse" value="Modelagem e Projetos"> Modelagem e Projetos</label>
+    <label><input type="checkbox" name="interesse" value="Gestão de Obras e Empreendimentos"> Gestão de Obras e Empreendimentos</label>
+    <label><input type="checkbox" name="interesse" value="Gestão de Facilities e Ativos"> Gestão de Facilities e Ativos</label>
+    <label><input type="checkbox" name="interesse" value="Planejamento Urbano e Empresarial"> Planejamento Urbano e Empresarial</label>
+    <label><input type="checkbox" name="interesse" value="Consultoria e Inovação Tecnológica"> Consultoria e Inovação Tecnológica</label>
+    <label><input type="checkbox" name="interesse" value="Plataforma YouMap"> Plataforma YouMap</label>
+    <label><input type="checkbox" name="interesse" value="Capacitação"> Capacitação</label>
+  </div>
+
+  <label for="verificacao">Coloque a mensagem como é mostrada: <strong>5 + 2 =</strong></label>
+  <input type="text" id="verificacao" name="verificacao" placeholder="Resposta obrigatória" required>
+
+  <button type="submit">Enviar</button>
+
+  <div class="success-message" id="mensagem-sucesso">
+    Obrigado! Sua mensagem foi enviada com sucesso.
+  </div>
+</form>
+
+<script>
+  const scriptURL = "https://script.google.com/macros/s/AKfycbw5rzaBcyGreUoAZLkGb4VqSLDlRc5NdS1-OIZzZB3L3XoQ6o3IpemMCnqEDu7_NCb9/exec";
+  const form = document.getElementById("contato-form");
+  const successMessage = document.getElementById("mensagem-sucesso");
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+
+    const verificacao = document.getElementById("verificacao").value.trim();
+    if (verificacao !== "7") {
+      alert("Verificação de humano incorreta. Tente novamente.");
+      return;
+    }
+
+    const formData = new FormData(form);
+
+    fetch(scriptURL, { method: "POST", body: formData })
+      .then(response => {
+        if (response.ok) {
+          successMessage.style.display = "block";
+          form.reset();
+        } else {
+          alert("Ocorreu um erro. Tente novamente.");
+        }
+      })
+      .catch(error => {
+        console.error("Erro ao enviar:", error);
+        alert("Erro ao enviar o formulário.");
+      });
+  });
+</script>
+
+</body>
+</html>
