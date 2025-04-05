@@ -1,43 +1,114 @@
-<form id="contatoForm" onsubmit="enviarFormulario(event)">
-  <label>Nome</label>
-  <div style="display: flex; gap: 10px;">
-    <input type="text" name="primeiro_nome" placeholder="Primeiro nome" required />
-    <input type="text" name="ultimo_nome" placeholder="Último nome" required />
-  </div>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário de Contato</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f2f2f2;
+    }
+    form {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .checkboxes label {
+      display: block;
+      font-weight: normal;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      width: 100%;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <form id="contactForm">
+    <h2>Formulário de Contato</h2>
+    <label for="firstName">Primeiro Nome:</label>
+    <input type="text" id="firstName" name="firstName" required>
 
-  <label>E-mail</label>
-  <input type="email" name="email" placeholder="exemplo@dominio.com" required />
+    <label for="lastName">Último Nome:</label>
+    <input type="text" id="lastName" name="lastName" required>
 
-  <label>Telefone</label>
-  <input type="tel" name="telefone" placeholder="(00) 00000-0000" required />
+    <label for="email">E-mail:</label>
+    <input type="email" id="email" name="email" required>
 
-  <label>Observações</label>
-  <textarea name="mensagem" placeholder="Em que podemos ajudar?"></textarea>
+    <label for="phone">Telefone:</label>
+    <input type="tel" id="phone" name="phone" required>
 
-  <label>Interesse em:</label><br />
-  <label><input type="checkbox" name="interesse" value="Modelagem e Projetos" /> Modelagem e Projetos</label><br />
-  <label><input type="checkbox" name="interesse" value="Gestão de Obras e Empreendimentos" /> Gestão de Obras e Empreendimentos</label><br />
-  <label><input type="checkbox" name="interesse" value="Gestão de Facilities e Ativos" /> Gestão de Facilities e Ativos</label><br />
-  <label><input type="checkbox" name="interesse" value="Planejamento Urbano e Empresarial" /> Planejamento Urbano e Empresarial</label><br />
-  <label><input type="checkbox" name="interesse" value="Consultoria e Inovação Tecnológica" /> Consultoria e Inovação Tecnológica</label><br />
-  <label><input type="checkbox" name="interesse" value="Plataforma YouMap" /> Plataforma YouMap</label><br />
-  <label><input type="checkbox" name="interesse" value="Capacitação" /> Capacitação</label><br />
+    <label for="message">Observações:</label>
+    <textarea id="message" name="message" rows="4"></textarea>
 
-  <button type="submit">Enviar</button>
-</form>
+    <label>Interesse em:</label>
+    <div class="checkboxes">
+      <label><input type="checkbox" name="interests" value="Modelagem e Projetos"> Modelagem e Projetos</label>
+      <label><input type="checkbox" name="interests" value="Gestão de Obras e Empreendimentos"> Gestão de Obras e Empreendimentos</label>
+      <label><input type="checkbox" name="interests" value="Gestão de Facilities e Ativos"> Gestão de Facilities e Ativos</label>
+      <label><input type="checkbox" name="interests" value="Planejamento Urbano e Empresarial"> Planejamento Urbano e Empresarial</label>
+      <label><input type="checkbox" name="interests" value="Consultoria e Inovação Tecnológica"> Consultoria e Inovação Tecnológica</label>
+      <label><input type="checkbox" name="interests" value="Plataforma YouMap"> Plataforma YouMap</label>
+      <label><input type="checkbox" name="interests" value="Capacitação"> Capacitação</label>
+    </div>
 
-<script>
-function enviarFormulario(e) {
-  e.preventDefault();
-  const form = document.getElementById("contatoForm");
-  const dados = new FormData(form);
+    <button type="submit">Enviar</button>
+  </form>
 
-  fetch("https://script.google.com/macros/s/AKfycbw5rzaBcyGreUoAZLkGb4VqSLDlRc5NdS1-OIZzZB3L3XoQ6o3IpemMCnqEDu7_NCb9/exec", {
-    method: "POST",
-    body: dados,
-  })
-  .then(response => response.text())
-  .then(res => alert("Mensagem enviada com sucesso!"))
-  .catch(err => alert("Erro ao enviar. Tente novamente."));
-}
-</script>
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const formData = new FormData(this);
+      const data = {
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        message: formData.get('message'),
+        interests: formData.getAll('interests')
+      };
+
+      fetch('https://script.google.com/macros/s/AKfycbw5rzaBcyGreUoAZLkGb4VqSLDlRc5NdS1-OIZzZB3L3XoQ6o3IpemMCnqEDu7_NCb9/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(() => alert('Mensagem enviada com sucesso!'))
+      .catch(error => alert('Erro ao enviar: ' + error.message));
+    });
+  </script>
+</body>
+</html>
