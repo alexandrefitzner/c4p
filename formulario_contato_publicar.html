@@ -1,147 +1,126 @@
-
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Formulário de Contato</title>
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: transparent;
+    body {
       font-family: Arial, sans-serif;
-    }
-    form {
-      max-width: 700px;
-      margin: 2rem auto;
       background: transparent;
+      margin: 0;
       padding: 2rem;
-      border-radius: 10px;
-      border: 1px solid rgba(0,0,0,0.1);
+    }
+    .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
     }
     label {
-      color: #333;
       font-weight: bold;
       display: block;
       margin-top: 1rem;
     }
-    input, textarea, button {
+    input, textarea {
       width: 100%;
-      padding: 0.8rem;
-      margin-top: 0.5rem;
-      border: 1px solid #ccc;
+      padding: 10px;
+      margin-top: 0.3rem;
       border-radius: 5px;
-      font-size: 1rem;
-      box-sizing: border-box;
+      border: 1px solid #ccc;
     }
-    .half-width {
-      width: 48%;
-      display: inline-block;
+    fieldset {
+      margin-top: 1rem;
+      border: none;
+      padding: 0;
     }
-    .half-width:first-child {
-      margin-right: 4%;
+    legend {
+      font-weight: bold;
     }
-    .checkbox-group label {
-      font-weight: normal;
+    .checkbox-label {
       display: block;
-      margin-bottom: 0.3rem;
+      margin: 5px 0;
     }
     button {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 12px;
       background-color: #28a745;
       color: white;
+      font-weight: bold;
       border: none;
-      margin-top: 1.5rem;
+      border-radius: 5px;
+      cursor: pointer;
     }
     button:hover {
       background-color: #218838;
     }
     .success-message {
-      display: none;
+      text-align: center;
+      color: green;
       margin-top: 1rem;
-      padding: 1rem;
-      background: #d4edda;
-      border: 1px solid #c3e6cb;
-      border-radius: 5px;
-      color: #155724;
     }
   </style>
 </head>
 <body>
+  <div class="form-container">
+    <h2>Formulário de Contato</h2>
+    <form id="contact-form" method="POST" action="https://script.google.com/macros/s/AKfycbw5rzaBcyGreUoAZLkGb4VqSLDlRc5NdS1-OIZzZB3L3XoQ6o3IpemMCnqEDu7_NCb9/exec">
+      
+      <label for="primeiro_nome">Nome</label>
+      <input type="text" id="primeiro_nome" name="primeiro_nome" placeholder="Primeiro nome" required>
 
-<form id="contato-form">
-  <h2 style="color: #222;">Formulário de Contato</h2>
+      <input type="text" id="ultimo_nome" name="ultimo_nome" placeholder="Último nome" required>
 
-  <label for="primeiro_nome">Nome</label>
-  <div class="half-width">
-    <input name="primeiro_nome" type="text" placeholder="Primeiro nome" required>
+      <label for="email">E-mail</label>
+      <input type="email" id="email" name="email" placeholder="exemplo@dominio.com" required>
+
+      <label for="telefone">Telefone</label>
+      <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
+
+      <label for="observacoes">Observações</label>
+      <textarea id="observacoes" name="observacoes" rows="4" placeholder="Em que podemos ajudar?"></textarea>
+
+      <fieldset>
+        <legend>Interesse em:</legend>
+        <label class="checkbox-label"><input type="checkbox" name="interesses" value="Modelagem e Projetos"> Modelagem e Projetos</label>
+        <label class="checkbox-label"><input type="checkbox" name="interesses" value="Gestão de Obras e Empreendimentos"> Gestão de Obras e Empreendimentos</label>
+        <label class="checkbox-label"><input type="checkbox" name="interesses" value="Gestão de Facilities e Ativos"> Gestão de Facilities e Ativos</label>
+        <label class="checkbox-label"><input type="checkbox" name="interesses" value="Planejamento Urbano e Empresarial"> Planejamento Urbano e Empresarial</label>
+        <label class="checkbox-label"><input type="checkbox" name="interesses" value="Consultoria e Inovação Tecnológica"> Consultoria e Inovação Tecnológica</label>
+        <label class="checkbox-label"><input type="checkbox" name="interesses" value="Plataforma YouMap"> Plataforma YouMap</label>
+        <label class="checkbox-label"><input type="checkbox" name="interesses" value="Capacitação"> Capacitação</label>
+      </fieldset>
+
+      <button type="submit">Enviar</button>
+      <div class="success-message" id="success-message" style="display: none;">
+        Obrigado! Sua mensagem foi enviada com sucesso.
+      </div>
+    </form>
   </div>
-  <div class="half-width">
-    <input name="ultimo_nome" type="text" placeholder="Último nome" required>
-  </div>
 
-  <label for="email">E-mail</label>
-  <input name="email" type="email" placeholder="exemplo@dominio.com" required>
+  <script>
+    const form = document.getElementById("contact-form");
+    const successMessage = document.getElementById("success-message");
 
-  <label for="telefone">Telefone</label>
-  <input name="telefone" type="tel" placeholder="(00) 00000-0000" required>
-
-  <label for="observacoes">Observações</label>
-  <textarea name="observacoes" rows="4" placeholder="Em que podemos ajudar?" required></textarea>
-
-  <label>Interesse em:</label>
-  <div class="checkbox-group">
-    <label><input type="checkbox" name="interesse" value="Modelagem e Projetos"> Modelagem e Projetos</label>
-    <label><input type="checkbox" name="interesse" value="Gestão de Obras e Empreendimentos"> Gestão de Obras e Empreendimentos</label>
-    <label><input type="checkbox" name="interesse" value="Gestão de Facilities e Ativos"> Gestão de Facilities e Ativos</label>
-    <label><input type="checkbox" name="interesse" value="Planejamento Urbano e Empresarial"> Planejamento Urbano e Empresarial</label>
-    <label><input type="checkbox" name="interesse" value="Consultoria e Inovação Tecnológica"> Consultoria e Inovação Tecnológica</label>
-    <label><input type="checkbox" name="interesse" value="Plataforma YouMap"> Plataforma YouMap</label>
-    <label><input type="checkbox" name="interesse" value="Capacitação"> Capacitação</label>
-  </div>
-
-  <label for="verificacao">Coloque a mensagem como é mostrada: <strong>5 + 2 =</strong></label>
-  <input type="text" id="verificacao" name="verificacao" placeholder="Resposta obrigatória" required>
-
-  <button type="submit" id="submitButton">Enviar</button>
-
-  <div class="success-message" id="mensagem-sucesso">
-    Obrigado! Sua mensagem foi enviada com sucesso.
-  </div>
-</form>
-
-<script>
-  const scriptURL = "https://script.google.com/macros/s/AKfycbw5rzaBcyGreUoAZLkGb4VqSLDlRc5NdS1-OIZzZB3L3XoQ6o3IpemMCnqEDu7_NCb9/exec";  // Substitua aqui com sua URL real
-  const form = document.getElementById("contato-form");
-  const successMessage = document.getElementById("mensagem-sucesso");
-  const submitButton = document.getElementById("submitButton");
-
-  form.addEventListener("submit", e => {
-    e.preventDefault();
-
-    if (document.getElementById("verificacao").value.trim() !== "7") {
-      alert("Verificação incorreta.");
-      return;
-    }
-
-    submitButton.disabled = true;
-    const formData = new FormData(form);
-
-    fetch(scriptURL, { method: "POST", body: formData })
-      .then(response => {
-        if (response.ok) {
-          successMessage.style.display = "block";
-          form.reset();
-        } else {
-          alert("Erro ao enviar.");
-        }
-        submitButton.disabled = false;
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const data = new FormData(form);
+      fetch(form.action, {
+        method: "POST",
+        body: data
       })
-      .catch(() => {
-        alert("Erro ao enviar.");
-        submitButton.disabled = false;
-      });
-  });
-</script>
-
-</body>
-</html>
+      .then(() => {
+        form.reset();
+        successMessage.style.display = "block";
+      })
+      .catch(err => alert("Erro ao enviar. Tente novamente."));
+    });
+  </script>
+</body
