@@ -3,30 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário de Contato</title>
+    <title>Formulário de Contato - Cloud4Project</title>
     <style>
-        body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: transparent;
-            color: #333;
+        /* Reset e estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
+        html, body {
+            height: 100%;
+            width: 100%;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background-color: transparent !important;
+            overflow-x: hidden;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+        
+        /* Container principal do formulário */
         .form-container {
-            background-color: rgba(255, 255, 255, 0.85); /* Fundo semi-transparente */
+            width: 100%;
+            max-width: 600px;
+            background-color: rgba(255, 255, 255, 0.85);
             border-radius: 10px;
             padding: 25px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
         }
         
+        /* Estilos do cabeçalho */
         h2 {
             text-align: center;
             margin-bottom: 20px;
             color: #333;
+            font-weight: 600;
         }
         
+        /* Estilos dos grupos de formulário */
         .form-group {
             margin-bottom: 15px;
         }
@@ -35,8 +55,10 @@
             display: block;
             margin-bottom: 5px;
             font-weight: 500;
+            color: #444;
         }
         
+        /* Estilos dos inputs */
         input[type="text"],
         input[type="email"],
         textarea {
@@ -46,8 +68,18 @@
             border-radius: 4px;
             box-sizing: border-box;
             background-color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
         }
         
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+        
+        /* Estilos para os checkboxes */
         .checkbox-group {
             margin-top: 10px;
         }
@@ -60,8 +92,17 @@
         
         .checkbox-item input[type="checkbox"] {
             margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            accent-color: #4CAF50;
         }
         
+        .checkbox-item label {
+            margin-bottom: 0;
+            font-weight: normal;
+        }
+        
+        /* Estilos do botão */
         button {
             background-color: #4CAF50;
             color: white;
@@ -71,18 +112,22 @@
             cursor: pointer;
             font-size: 16px;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 15px;
+            transition: background-color 0.3s;
         }
         
         button:hover {
             background-color: #45a049;
         }
         
+        /* Estilos para mensagens de status */
         #status-message {
-            margin-top: 20px;
-            padding: 10px;
+            margin-top: 15px;
+            padding: 12px;
             border-radius: 4px;
             display: none;
+            text-align: center;
+            font-weight: 500;
         }
         
         .success {
@@ -97,10 +142,27 @@
             border: 1px solid #f5c6cb;
         }
         
+        /* Indicador de carregamento */
         .loading {
             display: none;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 15px;
+            color: #4CAF50;
+            font-weight: 500;
+        }
+        
+        /* Responsividade */
+        @media screen and (max-width: 480px) {
+            .form-container {
+                padding: 15px;
+            }
+            
+            input[type="text"],
+            input[type="email"],
+            textarea,
+            button {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -178,72 +240,107 @@
     </div>
     
     <script>
-        document.getElementById('formulario-contato').addEventListener('submit', async function(e) {
-            e.preventDefault();
+        // Configurações iniciais quando a página carrega
+        document.addEventListener('DOMContentLoaded', function() {
+            // Força o fundo a ser transparente
+            document.body.style.backgroundColor = 'transparent';
+            document.documentElement.style.backgroundColor = 'transparent';
             
-            // Mostra indicador de carregamento
-            document.getElementById('loading').style.display = 'block';
+            // Ajusta a altura se estiver dentro de um iframe
+            adjustHeight();
             
-            // Limpa mensagem de status anterior
-            const statusMessage = document.getElementById('status-message');
-            statusMessage.style.display = 'none';
-            statusMessage.className = '';
-            
-            // Coleta os dados do formulário
-            const formData = new FormData(this);
-            
-            // Cria objeto com os dados do formulário
-            const data = {
-                primeiroNome: formData.get('primeiroNome'),
-                ultimoNome: formData.get('ultimoNome'),
-                email: formData.get('email'),
-                telefone: formData.get('telefone'),
-                observacoes: formData.get('observacoes'),
-                interesses: [...formData.getAll('interesses[]')]
-            };
-            
-            try {
-                // Envia os dados para o Google Apps Script
-                const response = await fetch('https://script.google.com/macros/s/AKfycbw5rzaBcyGreUoAZLkGb4VqSLDlRc5NdS1-OIZzZB3L3XoQ6o3IpemMCnqEDu7_NCb9/exec', {
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    mode: 'no-cors' // Importante para evitar problemas de CORS
-                });
-                
-                // Como estamos usando no-cors, não podemos acessar a resposta
-                // Então vamos presumir que deu certo se não houver exceção
-                showMessage('Mensagem enviada com sucesso! Entraremos em contato em breve.', 'success');
-                
-                // Limpa o formulário
-                document.getElementById('formulario-contato').reset();
-                
-            } catch (error) {
-                showMessage('Ocorreu um erro ao enviar o formulário. Por favor, tente novamente mais tarde.', 'error');
-                console.error('Erro:', error);
-            } finally {
-                // Esconde indicador de carregamento
-                document.getElementById('loading').style.display = 'none';
-            }
+            // Configura o formulário
+            setupForm();
         });
         
+        // Ajusta a altura e comunica com a página pai
+        function adjustHeight() {
+            // Função para ajustar altura e comunicar com a página pai
+            const sendHeight = () => {
+                const height = document.body.scrollHeight;
+                if (window.parent && window.parent !== window) {
+                    window.parent.postMessage({ type: 'resize', height: height }, '*');
+                }
+            };
+            
+            // Envia a altura inicial
+            setTimeout(sendHeight, 100);
+            
+            // Reenvia a altura quando a janela for redimensionada
+            window.addEventListener('resize', sendHeight);
+        }
+        
+        // Configura o comportamento do formulário
+        function setupForm() {
+            document.getElementById('formulario-contato').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Mostra indicador de carregamento
+                document.getElementById('loading').style.display = 'block';
+                
+                // Limpa mensagem de status anterior
+                const statusMessage = document.getElementById('status-message');
+                statusMessage.style.display = 'none';
+                statusMessage.className = '';
+                
+                // Coleta os dados do formulário
+                const formData = new FormData(this);
+                
+                // Cria objeto com os dados do formulário
+                const data = {
+                    primeiroNome: formData.get('primeiroNome'),
+                    ultimoNome: formData.get('ultimoNome'),
+                    email: formData.get('email'),
+                    telefone: formData.get('telefone'),
+                    observacoes: formData.get('observacoes'),
+                    interesses: [...formData.getAll('interesses[]')]
+                };
+                
+                try {
+                    // Envia os dados para o Google Apps Script
+                    const response = await fetch('https://script.google.com/macros/s/AKfycbw5rzaBcyGreUoAZLkGb4VqSLDlRc5NdS1-OIZzZB3L3XoQ6o3IpemMCnqEDu7_NCb9/exec', {
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        mode: 'no-cors' // Importante para evitar problemas de CORS
+                    });
+                    
+                    // Como estamos usando no-cors, não podemos acessar a resposta
+                    // Então vamos presumir que deu certo se não houver exceção
+                    showMessage('Mensagem enviada com sucesso! Entraremos em contato em breve.', 'success');
+                    
+                    // Limpa o formulário
+                    document.getElementById('formulario-contato').reset();
+                    
+                } catch (error) {
+                    showMessage('Ocorreu um erro ao enviar o formulário. Por favor, tente novamente mais tarde.', 'error');
+                    console.error('Erro:', error);
+                } finally {
+                    // Esconde indicador de carregamento
+                    document.getElementById('loading').style.display = 'none';
+                }
+            });
+        }
+        
+        // Exibe mensagem de status
         function showMessage(message, type) {
             const statusMessage = document.getElementById('status-message');
             statusMessage.textContent = message;
             statusMessage.className = type;
             statusMessage.style.display = 'block';
+            
+            // Re-ajusta a altura após mostrar a mensagem
+            setTimeout(function() {
+                if (window.parent && window.parent !== window) {
+                    window.parent.postMessage({ 
+                        type: 'resize', 
+                        height: document.body.scrollHeight 
+                    }, '*');
+                }
+            }, 100);
         }
-        
-        // Script para comunicar a altura do formulário para a página pai
-        window.addEventListener('load', function() {
-            const height = document.body.scrollHeight;
-            // Envia a altura para a página pai
-            if (window.parent) {
-                window.parent.postMessage(height, '*');
-            }
-        });
     </script>
 </body>
 </html>
